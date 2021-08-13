@@ -21,8 +21,11 @@ Recall the Leslie matrix from EDS 212. Matrix multiplication (using the dot prod
 ### Create the Leslie matrix:
 
 ```{r}
-# Make the Leslie Matrix:
-fish_leslie <- matrix(c(0, 0, 0, 600, 0.05, 0, 0, 0, 0, 0.20, 0, 0, 0, 0, 0.16, 0.9), nrow = 4, ncol = 4, byrow = TRUE)
+# Make the Leslie Matrix: (byrow = TRUE means you're populating values across the rows, default is to populate down columns)
+fish_leslie <- matrix(c(0, 0, 0, 600, 
+                        0.05, 0, 0, 0, 
+                        0, 0.20, 0, 0, 
+                        0, 0, 0.16, 0.9), nrow = 4, ncol = 4, byrow = TRUE)
 
 # Check it out: 
 fish_leslie
@@ -43,16 +46,16 @@ Add line-by-line comments wheres prompted in the code below, explaining what eac
 # ------ WHAT HAPPENS HERE? ------ #
 # ------ comment line-by-line ---- #
 
-# The line below...
+# The line below we are creating a vector of the time period that we want to run this for (8 years), telling it to go by increments of 1 year.
 time_yr <- seq(from = 0, to = 8, by = 1)
 
-# The line below...
+# The line below creates an empty matrix with 4 columns to be populated by the output of the for loop below.
 proj_year <- matrix(ncol = length(fish_year0), nrow = length(time_yr))
 
-# The line below...
+# The line below populates the first row (aka year 0) of the matrix (proj_year) with the initial conditions given above (fish_year0).
 proj_year[1, ] <- fish_year0
 
-# The for loop below...
+# The for loop below starts at row 2 and does the dot product (aka multiplies matrices) based on the fish_leslie directions and the previous year's outcomes over the sequence period created (8 years).
 for (i in 2:length(time_yr)) {
   proj_year[i,] <- fish_leslie %*% proj_year[i-1,]
 }
